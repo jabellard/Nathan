@@ -12,8 +12,4 @@
       <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.0.2" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Nathan.Abstractions\Nathan.Abstractions.csproj" />
-    </ItemGroup>
-
 </Project>

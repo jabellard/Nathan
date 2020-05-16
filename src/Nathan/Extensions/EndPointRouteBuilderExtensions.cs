@@ -19,13 +19,18 @@ namespace Nathan.Extensions
             nathanApplicationConfigurator
                 .WithMiddleware<HandlerDispatchingMiddleware>(NathanPipelineComponents.HandlerDispatching);
 
+            var nathanFeatureProvider = applicationServiceProvider
+                .GetRequiredService<INathanFeatureProvider>();
+            var nathanFeatures = nathanFeatureProvider.GetFeatures();
+            foreach (var nathanFeature in nathanFeatures)
+                nathanFeature.Configure(nathanApplicationConfigurator);
+
             configuration(nathanApplicationConfigurator);
             
             var nathanApplicationBuilder = new NathanApplicationBuilder(applicationServiceProvider);
             var nathanApplicationConfiguration = nathanApplicationConfigurator.Configure();
             var nathanRequestDelegate = nathanApplicationBuilder
-                .ConfigurePipeline(nathanApplicationConfiguration)
-                .Build();
+                .Build(nathanApplicationConfiguration);
             
             var nathanModuleProvider = applicationServiceProvider
                 .GetService<INathanModuleProvider>();
@@ -41,13 +46,12 @@ namespace Nathan.Extensions
                     var methods = handlerDescriptor.Methods;
                     var endPointConventionBuilder = endpointRouteBuilder.MapMethods(pathTemplate, methods, async httpContext =>
                     {
-                        httpContext.Items.Add(ObjectKeys.NathanRequestContextHandlerDescriptor, handlerDescriptor);
+                        httpContext.Items.Add(NathanObjectKeys.HandlerDescriptor, handlerDescriptor);
                         var nathanRequestContext = new NathanRequestContext(httpContext);
-                        nathanRequestContext.Data.Add(ObjectKeys.NathanRequestContextHandlerDescriptor, handlerDescriptor);
                         await nathanRequestDelegate.Invoke(nathanRequestContext);
                     });
                     endPointConventionBuilder.WithMetadata(moduleDescriptor.MetaData);
-                    handlerDescriptor.EndPointConventionBuilder.Apply(endPointConventionBuilder);
+                    handlerDescriptor.EndPointConventionBuilder.Execute(endPointConventionBuilder);
                     endPointConventionBuilder.WithMetadata(handlerDescriptor);
                     endPointConventionBuilders.Add(endPointConventionBuilder);
                 }

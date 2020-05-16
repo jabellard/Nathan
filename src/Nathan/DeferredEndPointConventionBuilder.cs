@@ -17,7 +17,7 @@ namespace Nathan
             _deferredConventions.Add(convention);
         }
 
-        public void Apply(IEndpointConventionBuilder endpointConventionBuilder)
+        public void Execute(IEndpointConventionBuilder endpointConventionBuilder)
         {
             foreach (var deferredConvention in _deferredConventions)
                 endpointConventionBuilder.Add(deferredConvention);

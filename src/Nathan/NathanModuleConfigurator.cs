@@ -12,7 +12,8 @@ namespace Nathan
         
         public NathanModuleConfigurator WithMetaData(object metaData)
         {
-            throw new System.NotImplementedException();
+            ModuleDescriptor.MetaData.Add(metaData);
+            return this;
         }
     }
 }

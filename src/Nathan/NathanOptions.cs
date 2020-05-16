@@ -1,4 +1,4 @@
-namespace Nathan.Options
+namespace Nathan
 {
     public class NathanOptions
     {

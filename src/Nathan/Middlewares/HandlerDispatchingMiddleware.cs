@@ -1,13 +1,16 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Nathan.Abstractions;
 
 namespace Nathan.Middlewares
 {
     public class HandlerDispatchingMiddleware: INathanMiddleware
     {
-        public Task Invoke(INathanRequestContext nathanRequestContext, NathanRequestDelegate next)
+        public async Task Invoke(NathanRequestContext nathanRequestContext, NathanRequestDelegate next)
         {
-            throw new System.NotImplementedException();
+            var httpContext = nathanRequestContext.HttpContext;
+            var endPoint = httpContext.GetEndpoint();
+            endPoint.RequestDelegate(httpContext);
         }
     }
 }

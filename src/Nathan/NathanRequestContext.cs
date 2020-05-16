@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
-using Nathan.Abstractions;
 
 namespace Nathan
 {
-    public class NathanRequestContext: INathanRequestContext
+    public class NathanRequestContext
     {
         public HttpContext HttpContext { get;}
         public Dictionary<string, object> Data { get; }
