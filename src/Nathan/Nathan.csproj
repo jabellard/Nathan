@@ -9,7 +9,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Abstractions" />
+      <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.0.2" />
     </ItemGroup>
 
 </Project>
