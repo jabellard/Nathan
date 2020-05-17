@@ -45,6 +45,9 @@ namespace Nathan
             Services.AddLogging();
             Services.AddOptions();
             Services.AddRouting();
+            Services.AddSingleton<INathanFeatureProvider, NathanFeatureProvider>();
+            Services.AddSingleton<INathanMiddlewareProvider, NathanMiddlewareProvider>();
+            Services.AddSingleton<INathanModuleProvider, NathanModuleProvider>();
             var nathanComponentProvider = new NathanComponentProvider();
             var modules = nathanComponentProvider.GetModules();
             foreach (var module in modules)
