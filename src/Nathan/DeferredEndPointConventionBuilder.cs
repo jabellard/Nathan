@@ -6,7 +6,7 @@ namespace Nathan
 {
     public class DeferredEndPointConventionBuilder: IEndpointConventionBuilder
     {
-        private readonly List<Action<EndpointBuilder>> _deferredConventions;
+        private readonly IList<Action<EndpointBuilder>> _deferredConventions;
         public DeferredEndPointConventionBuilder()
         {
             _deferredConventions = new List<Action<EndpointBuilder>>();
