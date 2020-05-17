@@ -13,7 +13,7 @@ namespace Nathan.Extensions
         public static IEndpointConventionBuilder MapNathan(this IEndpointRouteBuilder endpointRouteBuilder, Action<INathanApplicationConfigurator> configuration)
         {
             var applicationServiceProvider = endpointRouteBuilder
-                .CreateApplicationBuilder().UseAuthorization()
+                .CreateApplicationBuilder()
                 .ApplicationServices;
             var nathanApplicationConfigurator = new NathanApplicationConfigurator(applicationServiceProvider);
             nathanApplicationConfigurator
@@ -38,12 +38,12 @@ namespace Nathan.Extensions
             var endPointConventionBuilders = new List<IEndpointConventionBuilder>();
             foreach (var module in modules)
             {
-                var handlerDescriptors = module.ModuleDescriptor.HandlerDescriptors;
+                var handlerDescriptors = module.ModuleDescriptor.HandlerDescriptors.Values;
                 foreach (var handlerDescriptor in handlerDescriptors)
                 {
                     var moduleDescriptor = handlerDescriptor.ParentModuleDescriptor;
                     var pathTemplate = handlerDescriptor.PathTemplate;
-                    var methods = handlerDescriptor.Methods;
+                    var methods = new []{handlerDescriptor.Method};
                     var endPointConventionBuilder = endpointRouteBuilder.MapMethods(pathTemplate, methods, async httpContext =>
                     {
                         httpContext.Items.Add(NathanObjectKeys.HandlerDescriptor, handlerDescriptor);
