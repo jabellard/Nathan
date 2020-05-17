@@ -1,7 +1,9 @@
 
+using Nathan.Abstractions;
+
 namespace Nathan
 {
-    public class NathanModuleConfigurator
+    public class NathanModuleConfigurator: INathanModuleConfigurator
     {
         public NathanModuleDescriptor ModuleDescriptor { get; }
 
@@ -9,8 +11,14 @@ namespace Nathan
         {
             ModuleDescriptor = moduleDescriptor;
         }
+
+        public INathanModuleConfigurator WithBasePath(string basePath)
+        {
+            ModuleDescriptor.BasePath = basePath;
+            return this;
+        }
         
-        public NathanModuleConfigurator WithMetaData(object metaData)
+        public INathanModuleConfigurator WithMetaData(object metaData)
         {
             ModuleDescriptor.MetaData.Add(metaData);
             return this;
